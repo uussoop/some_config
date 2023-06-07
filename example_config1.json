@@ -1,0 +1,152 @@
+{
+    "log": {
+      "access": "./access.log",
+      "error": "./error.log",
+      "loglevel": "warning"
+    },
+    "routing": {
+      "domainStrategy": "IPIfNonMatch",
+      "rules": [
+        {
+          "inboundTag": [
+            "api"
+          ],
+          "outboundTag": "api",
+          "type": "field"
+        },
+        {
+          "ip": [
+            "geoip:private"
+          ],
+          "outboundTag": "blocked",
+          "type": "field"
+        },
+        {
+          "outboundTag": "blocked",
+          "protocol": [
+            "bittorrent"
+          ],
+          "type": "field"
+        }
+      ]
+    },
+    "dns": null,
+    "inbounds": [
+      {
+        "listen": "127.0.0.1",
+        "port": 62789,
+        "protocol": "dokodemo-door",
+        "settings": {
+          "address": "127.0.0.1"
+        },
+        "streamSettings": null,
+        "tag": "api",
+        "sniffing": null
+      },
+      {
+        "listen": null,
+        "port": 8020,
+        "protocol": "vmess",
+        "settings": {
+          "clients": [
+            {
+              "alterId": 0,
+              "email": "email",
+              "id": "uuid"
+            }
+          ],
+          "disableInsecureEncryption": false
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "none",
+          "wsSettings": {
+            "acceptProxyProtocol": false,
+            "path": "/",
+            "headers": {
+              "Host": "example.domain"
+            }
+          }
+        },
+        "tag": "inbound-8020",
+        "sniffing": {
+          "enabled": true,
+          "destOverride": [
+            "http",
+            "tls",
+            "quic"
+          ]
+        }
+      }
+    ],
+    "outbounds": [
+      {
+        "tag": "proxy",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "domain",
+              "port": 1234,
+              "users": [
+                {
+                  "id": "uuid",
+                  "alterId": 0,
+                  "email": "email",
+                  "security": "auto",
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+  
+  
+          "network": "tcp",
+          "security": "reality",
+          "realitySettings": {
+            "show": false,
+  "fingerprint": "randomized",
+            "serverName": "example.domain",
+            "publicKey": "public_key",
+
+            "shortId": "shortid",
+            
+            "spiderX": "/"
+          }
+        },
+        "dns": {
+          "servers": [
+            "8.8.8.8",
+            "8.8.4.4"
+          ]
+        }
+      }
+    ],
+    "transport": null,
+    "policy": {
+      "levels": {
+        "0": {
+          "statsUserDownlink": true,
+          "statsUserUplink": true
+        }
+      },
+      "system": {
+        "statsInboundDownlink": true,
+        "statsInboundUplink": true
+      }
+    },
+    "api": {
+      "services": [
+        "HandlerService",
+        "LoggerService",
+        "StatsService"
+      ],
+      "tag": "api"
+    },
+    "stats": {},
+    "reverse": null,
+    "fakeDns": null
+  }
